@@ -1,0 +1,29 @@
+<navbar
+  [title]="isEditMode ? 'Edit Employee Details' : 'Add Employee Details'"
+  [showDelete]="isEditMode"
+  (onClickDelete)="onDeleteEmployee()"
+></navbar>
+
+<div class="card">
+  <form [formGroup]="employeeForm" (ngSubmit)="onClickSave()">
+    <div class="flex flex-column gap-2 mb-3">
+      <label for="name">Name</label>
+      <input type="text" formControlName="name" />
+    </div>
+    <div class="flex flex-column gap-2 mb-3">
+      <label for="role">Role</label>
+      <input type="text" formControlName="role" />
+    </div>
+    <div class="flex mb-3 gap-2">
+      <div class="flex flex-column gap-2">
+        <label for="fromDate">From</label>
+        <input type="text" formControlName="fromDate" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="toDate">To</label>
+        <input type="text" formControlName="toDate" />
+      </div>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</div>

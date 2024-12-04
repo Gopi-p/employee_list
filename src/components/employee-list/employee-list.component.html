@@ -1,0 +1,23 @@
+<navbar title="Employee List"></navbar>
+<div class="page">
+  @if(employeeList.length > 0){ @for (emp of employeeList; track $index) {
+  <div (click)="onClickEmployee(emp.id)">
+    <h4>{{ emp.name }}</h4>
+    <p>{{ emp.role }}</p>
+    <div class="flex">
+      <p>{{ emp.fromDate }}</p>
+      <p>{{ emp?.toDate }}</p>
+    </div>
+  </div>
+  } }@else {
+  <div
+    id="empty-screen"
+    class="flex flex-column justify-content-center align-items-center"
+  >
+    <img src="illustrations/no_employee.svg" alt="No employee" class="mb-1" />
+    <p class="mb-5">No employee records found</p>
+  </div>
+  }
+  <button (click)="onClickAdd()">Add Employee</button>
+</div>
+<div class="footer"></div>

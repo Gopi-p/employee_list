@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { EmployeeService } from '../shared/services/employee/employee.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  template: '<router-outlet></router-outlet>',
 })
-export class AppComponent {
-  title = 'employee_list';
+export class AppComponent implements OnInit {
+  constructor(private employeeService: EmployeeService) {}
+  ngOnInit(): void {
+    this.employeeService.loadEmployees();
+  }
 }
