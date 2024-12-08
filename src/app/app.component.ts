@@ -10,7 +10,7 @@ import { EmployeeService } from '../shared/services/employee/employee.service';
 })
 export class AppComponent implements OnInit {
   constructor(private employeeService: EmployeeService) {}
-  ngOnInit(): void {
-    this.employeeService.loadEmployees();
+  async ngOnInit(): Promise<void> {
+    await this.employeeService.loadEmployees();
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { EmployeeIF } from '../../models/employee.model';
+import { IdbService } from '../idb/idb.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,43 +8,24 @@ import { EmployeeIF } from '../../models/employee.model';
 export class EmployeeService {
   employeeList: WritableSignal<EmployeeIF[]> = signal([]);
 
-  constructor() {}
+  constructor(private idbService: IdbService) {}
 
-  loadEmployees() {
-    this.employeeList.set([
-      {
-        id: '1',
-        name: 'gopi',
-        fromDate: '2024-12-04T11:35:20.123Z',
-        toDate: '2024-12-04T11:35:20.123Z',
-        role: 'Product Owner',
-      },
-      {
-        id: '2',
-        name: 'Vinod',
-        fromDate: '2024-12-04T11:35:20.123Z',
-        toDate: '2024-12-04T11:35:20.123Z',
-        role: 'Product Owner',
-      },
-      {
-        id: '3',
-        name: 'Kumar',
-        fromDate: '2024-12-04T11:35:20.123Z',
-        toDate: '2024-12-04T11:35:20.123Z',
-        role: 'Product Owner',
-      },
-    ]);
+  async loadEmployees() {
+    let result = await this.idbService.getAllEmployees();
+    this.employeeList.set(result);
   }
 
   getEmployee(id: string) {
     return this.employeeList().find((e) => e.id == id);
   }
 
-  addEmployee(emp: EmployeeIF) {
+  async addEmployee(emp: EmployeeIF) {
+    await this.idbService.addEmployee(emp);
     this.employeeList.update((e) => [emp, ...e]);
   }
 
-  updateEmployee(emp: EmployeeIF) {
+  async updateEmployee(emp: EmployeeIF) {
+    await this.idbService.updateEmployee(emp);
     this.employeeList.update((e) => {
       const index = e.findIndex((e) => e.id == emp.id);
       if (index !== -1) e[index] = emp;
@@ -51,7 +33,8 @@ export class EmployeeService {
     });
   }
 
-  deleteEmployee(id: string) {
+  async deleteEmployee(id: string) {
+    await this.idbService.deleteEmployee(id);
     this.employeeList.update((e) => e.filter((emp) => emp.id !== id));
   }
 }

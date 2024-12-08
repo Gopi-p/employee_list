@@ -17,13 +17,16 @@
     <div class="flex mb-3 gap-2">
       <div class="flex flex-column gap-2">
         <label for="fromDate">From</label>
-        <input type="text" formControlName="fromDate" />
+        <input type="date" formControlName="fromDate" />
       </div>
       <div class="flex flex-column gap-2">
         <label for="toDate">To</label>
-        <input type="text" formControlName="toDate" />
+        <input type="date" formControlName="toDate" />
       </div>
     </div>
-    <button type="submit">Save</button>
+    <div class="flex gap-4">
+      <button type="button" (click)="onClickCancel()">Cancel</button>
+      <button type="submit">Save</button>
+    </div>
   </form>
 </div>

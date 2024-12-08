@@ -68,4 +68,8 @@ export class AddEditEmployeeComponent implements OnInit {
     }
     this.router.navigate(['/employee']);
   }
+
+  onClickCancel() {
+    this.router.navigate(['/employee']);
+  }
 }

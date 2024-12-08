@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../shared/component/navbar/navbar.component';
+import { IdbService } from '../../shared/services/idb/idb.service';
 
 const MAT = [MatButtonModule, MatIconModule];
 const SHARED = [NavbarComponent];
@@ -21,6 +22,7 @@ export class EmployeeListComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
+    private idbService: IdbService,
     private router: Router
   ) {
     effect(() => {
