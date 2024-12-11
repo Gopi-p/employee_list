@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NavbarComponent } from '../../shared/component/navbar/navbar.component';
 import { EmployeeService } from '../../shared/services/employee/employee.service';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -18,11 +17,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { MatDialog } from '@angular/material/dialog';
-import { DatePickerComponent } from '../../shared/component/date-picker/date-picker.component';
 import {
   displayToRawDate,
   rawToDisplayDate,
 } from '../../shared/functions/helper.function';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { DatePickerComponent } from '../../shared/components/date-picker/date-picker.component';
 
 const SHARED = [NavbarComponent];
 const CORE = [ReactiveFormsModule];
@@ -94,16 +94,21 @@ export class AddEditEmployeeComponent implements OnInit {
 
   onClickSave() {
     if (this.employeeForm.valid) {
+      const employeeDetails = {
+        ...this.employeeForm.value,
+        fromDate: displayToRawDate(this.employeeFormControl['fromDate'].value),
+        toDate: displayToRawDate(this.employeeFormControl['toDate'].value),
+      };
+
       if (this.isEditMode) {
         this.employeeService.updateEmployee({
           id: this.employeeId,
-          ...this.employeeForm.value,
-          fromDate: this.employeeFormControl['fromDate'].value,
+          ...employeeDetails,
         });
       } else {
         this.employeeService.addEmployee({
           id: `${this.employeeService.employeeList().length + 1}`,
-          ...this.employeeForm.value,
+          ...employeeDetails,
         });
       }
       this.router.navigate(['/employee']);

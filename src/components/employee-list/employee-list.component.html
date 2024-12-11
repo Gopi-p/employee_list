@@ -1,15 +1,48 @@
 <navbar title="Employee List"></navbar>
 <div class="page">
-  @if(employeeList.length > 0){ @for (emp of employeeList; track $index) {
-  <div (click)="onClickEmployee(emp.id)">
-    <h4>{{ emp.name }}</h4>
-    <p>{{ emp.role }}</p>
-    <div class="flex">
-      <p>{{ emp.fromDate }}</p>
-      <p>{{ emp?.toDate }}</p>
-    </div>
+  @if(totalEmployee > 0){
+  <div class="bg-surface">
+    <p class="p-3 txt-primary">Current employees</p>
   </div>
-  } }@else {
+
+  <mat-list>
+    @for (emp of employees.current; track $index) {
+
+    <mat-list-item (click)="onClickEmployee(emp.id)" class="cursor-pointer">
+      <span matListItemTitle>
+        {{ emp.name }}
+      </span>
+      <span matListItemLine>
+        {{ emp.role }}
+      </span>
+      <span matListItemLine>
+        From {{ emp.fromDate | date : "d MMM yyyy" }}
+      </span>
+    </mat-list-item>
+    }
+  </mat-list>
+  <div class="bg-surface">
+    <p class="p-3 txt-primary">Previous employees</p>
+  </div>
+  <mat-list>
+    @for (emp of employees.past; track $index) {
+
+    <mat-list-item (click)="onClickEmployee(emp.id)" class="cursor-pointer">
+      <span matListItemTitle>
+        {{ emp.name }}
+      </span>
+      <span matListItemLine>
+        {{ emp.role }}
+      </span>
+      <span matListItemLine>
+        {{ emp.fromDate | date : "d MMM yyyy" }} -
+        {{ emp?.toDate | date : "d MMM yyyy" }}
+      </span>
+    </mat-list-item>
+    }
+  </mat-list>
+
+  }@else {
   <div
     id="empty-screen"
     class="flex flex-column justify-content-center align-items-center"
