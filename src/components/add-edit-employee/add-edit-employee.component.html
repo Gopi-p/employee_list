@@ -4,29 +4,68 @@
   (onClickDelete)="onDeleteEmployee()"
 ></navbar>
 
-<div class="card">
+<div class="px-3 py-4">
   <form [formGroup]="employeeForm" (ngSubmit)="onClickSave()">
     <div class="flex flex-column gap-2 mb-3">
-      <label for="name">Name</label>
-      <input type="text" formControlName="name" />
+      <mat-form-field>
+        <mat-icon matPrefix>person_outline</mat-icon>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          placeholder="Employee name"
+        />
+        @if(employeeForm.get('name')?.errors?.['required']){
+        <mat-error> Employee name is required </mat-error>
+        }
+      </mat-form-field>
     </div>
     <div class="flex flex-column gap-2 mb-3">
-      <label for="role">Role</label>
-      <input type="text" formControlName="role" />
+      <mat-form-field>
+        <mat-icon matPrefix>work_outline</mat-icon>
+        <input
+          matInput
+          type="text"
+          formControlName="role"
+          placeholder="Select role"
+        />
+        <mat-icon matSuffix>arrow_drop_down</mat-icon>
+        @if(employeeForm.get('role')?.errors?.['required']){
+        <mat-error> Role is required </mat-error>
+        }
+      </mat-form-field>
     </div>
-    <div class="flex mb-3 gap-2">
-      <div class="flex flex-column gap-2">
-        <label for="fromDate">From</label>
-        <input type="date" formControlName="fromDate" />
-      </div>
-      <div class="flex flex-column gap-2">
-        <label for="toDate">To</label>
-        <input type="date" formControlName="toDate" />
-      </div>
+    <div class="flex justify-content-between mb-3 gap-4">
+      <mat-form-field id="datePicker" class="w-full">
+        <mat-icon matPrefix>event_outline</mat-icon>
+        <input
+          matInput
+          formControlName="fromDate"
+          placeholder="From"
+          type="text"
+          readonly
+          (click)="openDatePicker('fromDate')"
+        />
+        @if(employeeForm.get('fromDate')?.errors?.['required'] ){
+        <mat-error> From date is required </mat-error>
+        }
+      </mat-form-field>
+      <mat-icon class="split-icon">arrow_forward</mat-icon>
+      <mat-form-field id="datePicker" class="w-full">
+        <mat-icon matPrefix>event_outline</mat-icon>
+        <input
+          matInput
+          formControlName="toDate"
+          placeholder="No date"
+          readonly
+          type="text"
+          (click)="openDatePicker('toDate')"
+        />
+      </mat-form-field>
     </div>
-    <div class="flex gap-4">
-      <button type="button" (click)="onClickCancel()">Cancel</button>
-      <button type="submit">Save</button>
+    <div class="footer">
+      <button mat-stroked-button (click)="onClickCancel()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit">Save</button>
     </div>
   </form>
 </div>

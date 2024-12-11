@@ -1,0 +1,16 @@
+<div class="w-25rem">
+  <mat-dialog-content>
+    <mat-calendar class="" [(selected)]="chosenDate"></mat-calendar>
+    @if(chosenDate){
+    <p>{{ chosenDate | date : "d MMM yyyy" }}</p>
+    }@else {
+    <p>No date</p>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="chosenDate" cdkFocusInitial>
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>

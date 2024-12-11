@@ -1,13 +1,12 @@
 import { Component, effect, OnInit } from '@angular/core';
 import { EmployeeService } from '../../shared/services/employee/employee.service';
 import { EmployeeIF } from '../../shared/models/employee.model';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../shared/component/navbar/navbar.component';
-import { IdbService } from '../../shared/services/idb/idb.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
-const MAT = [MatButtonModule, MatIconModule];
+const MAT = [MatIconModule, MatButtonModule];
 const SHARED = [NavbarComponent];
 
 @Component({
@@ -22,7 +21,6 @@ export class EmployeeListComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private idbService: IdbService,
     private router: Router
   ) {
     effect(() => {

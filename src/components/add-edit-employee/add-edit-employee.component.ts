@@ -1,18 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NavbarComponent } from '../../shared/component/navbar/navbar.component';
 import { EmployeeService } from '../../shared/services/employee/employee.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { MatDialog } from '@angular/material/dialog';
+import { DatePickerComponent } from '../../shared/component/date-picker/date-picker.component';
+import {
+  displayToRawDate,
+  rawToDisplayDate,
+} from '../../shared/functions/helper.function';
 
 const SHARED = [NavbarComponent];
 const CORE = [ReactiveFormsModule];
+const MAT = [
+  MatButtonModule,
+  MatInputModule,
+  MatIconModule,
+  MatFormFieldModule,
+  MatDividerModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+];
 
 @Component({
   selector: 'app-add-edit-employee',
   standalone: true,
-  imports: [...CORE, ...SHARED],
+  imports: [...CORE, ...MAT, ...SHARED],
   templateUrl: './add-edit-employee.component.html',
-  styleUrl: './add-edit-employee.component.scss',
+  styleUrls: ['./add-edit-employee.component.scss'],
 })
 export class AddEditEmployeeComponent implements OnInit {
   employeeId?: string;
@@ -23,12 +52,13 @@ export class AddEditEmployeeComponent implements OnInit {
   constructor(
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private dialog: MatDialog
   ) {
     this.employeeForm = new FormGroup({
-      name: new FormControl(),
-      role: new FormControl(),
-      fromDate: new FormControl(),
+      name: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required]),
+      fromDate: new FormControl('', [Validators.required]),
       toDate: new FormControl(),
     });
   }
@@ -42,9 +72,17 @@ export class AddEditEmployeeComponent implements OnInit {
     }
   }
 
+  get employeeFormControl() {
+    return this.employeeForm.controls;
+  }
+
   patchFormForEditMode() {
     const emp = this.employeeService.getEmployee(this.employeeId!);
-    this.employeeForm.patchValue({ ...emp });
+    this.employeeForm.patchValue({
+      ...emp,
+      fromDate: rawToDisplayDate(emp?.fromDate),
+      toDate: rawToDisplayDate(emp?.toDate),
+    });
   }
 
   onDeleteEmployee() {
@@ -55,21 +93,42 @@ export class AddEditEmployeeComponent implements OnInit {
   }
 
   onClickSave() {
-    if (this.isEditMode) {
-      this.employeeService.updateEmployee({
-        id: this.employeeId,
-        ...this.employeeForm.value,
-      });
-    } else {
-      this.employeeService.addEmployee({
-        id: `${this.employeeService.employeeList().length + 1}`,
-        ...this.employeeForm.value,
-      });
+    if (this.employeeForm.valid) {
+      if (this.isEditMode) {
+        this.employeeService.updateEmployee({
+          id: this.employeeId,
+          ...this.employeeForm.value,
+          fromDate: this.employeeFormControl['fromDate'].value,
+        });
+      } else {
+        this.employeeService.addEmployee({
+          id: `${this.employeeService.employeeList().length + 1}`,
+          ...this.employeeForm.value,
+        });
+      }
+      this.router.navigate(['/employee']);
     }
-    this.router.navigate(['/employee']);
+  }
+
+  openDatePicker(formField: string) {
+    const dialogRef = this.dialog.open(DatePickerComponent, {
+      data: {
+        initialDate: displayToRawDate(
+          this.employeeFormControl[formField].value
+        ),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.employeeForm.patchValue({
+          [formField]: rawToDisplayDate(result),
+        });
+      }
+    });
   }
 
   onClickCancel() {
-    this.router.navigate(['/employee']);
+    this.router.navigate(['employee']);
   }
 }

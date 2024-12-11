@@ -1,0 +1,74 @@
+:root {
+  --primary: #1da1f2;
+  --primary-100: #edf8ff;
+
+  --surface: #f2f2f2;
+
+  --gray: #323238;
+  --gray-100: #e5e5e5;
+  --gray-200: #949c9e;
+
+  --error: #f34642;
+
+  --transparent: #00000000;
+  --white: white;
+  --black: black;
+}
+
+// font colors
+.text-primary {
+  color: var(--primary);
+}
+.text-primary-100 {
+  color: var(--primary-100);
+}
+.text-gray {
+  color: var(--gray);
+}
+.text-gray-100 {
+  color: var(--gray-100);
+}
+.text-gray-200 {
+  color: var(--gray-200);
+}
+.text-error {
+  color: var(--error);
+}
+.text-white {
+  color: var(--white);
+}
+.text-black {
+  color: var(--black);
+}
+.text-surface {
+  color: var(--surface);
+}
+
+// background colors
+.bg-primary {
+  background-color: var(--primary);
+}
+.bg-primary-100 {
+  background-color: var(--primary-100);
+}
+.bg-gray {
+  background-color: var(--gray);
+}
+.bg-gray-100 {
+  background-color: var(--gray-100);
+}
+.bg-gray-200 {
+  background-color: var(--gray-200);
+}
+.bg-error {
+  background-color: var(--error);
+}
+.bg-white {
+  background-color: var(--white);
+}
+.bg-black {
+  background-color: var(--black);
+}
+.bg-surface {
+  background-color: var(--surface);
+}

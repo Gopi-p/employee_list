@@ -14,10 +14,21 @@
     id="empty-screen"
     class="flex flex-column justify-content-center align-items-center"
   >
-    <img src="illustrations/no_employee.svg" alt="No employee" class="mb-1" />
-    <p class="mb-5">No employee records found</p>
+    <img
+      src="illustrations/no_employee.svg"
+      alt="No employee"
+      class="mb-1 w-full max-w-16rem h-auto"
+    />
+    <p class="mb-5 text-center">No employee records found</p>
   </div>
   }
-  <button (click)="onClickAdd()">Add Employee</button>
+  <button
+    class="fab-add"
+    mat-fab
+    aria-label="Add employee"
+    (click)="onClickAdd()"
+  >
+    <mat-icon class="text-white">add</mat-icon>
+  </button>
 </div>
 <div class="footer"></div>
