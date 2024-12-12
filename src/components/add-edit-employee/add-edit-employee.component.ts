@@ -18,6 +18,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+} from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import {
   displayToRawDate,
@@ -25,6 +29,8 @@ import {
   rawToDisplayDate,
 } from '../../shared/functions/helper.function';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
+import { EMPLOYEE_ROLES } from '../../shared/data/general.data';
 
 const SHARED = [NavbarComponent];
 const CORE = [ReactiveFormsModule];
@@ -37,6 +43,8 @@ const MAT = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSnackBarModule,
+  MatBottomSheetModule,
+  MatListModule,
 ];
 
 @Component({
@@ -51,15 +59,17 @@ export class AddEditEmployeeComponent implements OnInit {
   isEditMode: boolean = false;
 
   employeeForm: FormGroup;
+  roles = EMPLOYEE_ROLES;
 
-  @ViewChild('snackBarUI') snackbarUI?: TemplateRef<any>;
+  @ViewChild('bottomSheet') roleBottomSheet?: TemplateRef<any>;
 
   constructor(
     private router: Router,
     private activateRoute: ActivatedRoute,
     private employeeService: EmployeeService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private bottomSheet: MatBottomSheet
   ) {
     this.employeeForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -71,6 +81,12 @@ export class AddEditEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.activateRoute.snapshot.params;
+
+    /**
+     *
+     * If the url contains the id then it is consider as edit mode and the respected employee
+     * details will get fetched and patched to the form.
+     */
     if (params['id']) {
       this.isEditMode = true;
       this.employeeId = params['id'];
@@ -135,7 +151,7 @@ export class AddEditEmployeeComponent implements OnInit {
   }
 
   openDatePicker(formField: string) {
-    const dialogRef = this.dialog.open(DatePickerComponent, {
+    const datePickerRef = this.dialog.open(DatePickerComponent, {
       data: {
         initialDate: displayToRawDate(
           this.employeeFormControl[formField].value
@@ -147,7 +163,7 @@ export class AddEditEmployeeComponent implements OnInit {
       maxWidth: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    datePickerRef.afterClosed().subscribe((result) => {
       if (result) {
         this.employeeForm.patchValue({
           [formField]: rawToDisplayDate(result),
@@ -158,6 +174,20 @@ export class AddEditEmployeeComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSelectRole() {
+    this.bottomSheet.open(this.roleBottomSheet!);
+  }
+
+  closeRoleBottomSheet(role?: string) {
+    if (role) {
+      this.employeeForm.patchValue({
+        role: role,
+      });
+    }
+
+    this.bottomSheet.dismiss();
   }
 
   onClickCancel() {

@@ -27,7 +27,9 @@
           matInput
           type="text"
           formControlName="role"
+          readonly
           placeholder="Select role"
+          (click)="onSelectRole()"
         />
         <mat-icon matSuffix>arrow_drop_down</mat-icon>
         @if(employeeForm.get('role')?.errors?.['required']){
@@ -71,3 +73,15 @@
     <button mat-flat-button color="primary" type="submit">Save</button>
   </div>
 </form>
+
+<ng-template #bottomSheet>
+  <mat-selection-list>
+    @for (role of roles; track $index) {
+    <mat-list-item (click)="closeRoleBottomSheet(role)">
+      {{ role }}
+    </mat-list-item>
+    @if($index < roles.length -1){
+    <mat-divider style="border-top-color: #e5e5e5"></mat-divider>
+    } }
+  </mat-selection-list>
+</ng-template>

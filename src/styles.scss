@@ -2,7 +2,7 @@
 
 @include mat.core();
 
-@import url("./shared/styles/components.scss");
+@import url("./shared/styles/colors.scss");
 @import url("./shared/styles/mat_overrides.scss");
 
 $my-primary: mat.define-palette(mat.$blue-palette);

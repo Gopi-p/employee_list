@@ -10,7 +10,6 @@ import {
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe, NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 
 const MAT = [
   MatButtonModule,
@@ -18,7 +17,6 @@ const MAT = [
   MatDialogClose,
   MatDialogContent,
   MatDatepickerModule,
-  MatDividerModule,
 ];
 
 const CORE = [DatePipe, NgClass];

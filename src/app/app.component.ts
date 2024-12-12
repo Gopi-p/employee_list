@@ -12,6 +12,9 @@ export class AppComponent implements OnInit {
   constructor(private employeeService: EmployeeService) {}
 
   async ngOnInit(): Promise<void> {
+    /**
+     * Load all employees from the indexDb on app startup
+     */
     await this.employeeService.loadEmployees();
   }
 }

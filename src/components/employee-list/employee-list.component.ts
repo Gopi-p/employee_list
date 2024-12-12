@@ -35,6 +35,9 @@ export class EmployeeListComponent {
     private employeeService: EmployeeService,
     private router: Router
   ) {
+    /**
+     * Effect is used to listen to the changes in signals from employeeService
+     */
     effect(() => {
       this.totalEmployee = this.employeeService.totalEmployee;
       this.employees = this.employeeService.employeeList();
