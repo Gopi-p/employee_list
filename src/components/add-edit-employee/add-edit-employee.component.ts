@@ -140,13 +140,21 @@ export class AddEditEmployeeComponent implements OnInit {
         initialDate: displayToRawDate(
           this.employeeFormControl[formField].value
         ),
+        isEndDate: formField === 'toDate',
       },
+      minWidth: '325px',
+      width: '100%',
+      maxWidth: '400px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.employeeForm.patchValue({
           [formField]: rawToDisplayDate(result),
+        });
+      } else if (result === null && formField === 'toDate') {
+        this.employeeForm.patchValue({
+          [formField]: undefined,
         });
       }
     });

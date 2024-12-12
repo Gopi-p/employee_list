@@ -4,8 +4,8 @@
   (onClickDelete)="onDeleteEmployee()"
 ></navbar>
 
-<div class="px-3 py-4">
-  <form [formGroup]="employeeForm" (ngSubmit)="onClickSave()">
+<form [formGroup]="employeeForm" (ngSubmit)="onClickSave()">
+  <div class="form-block">
     <div class="flex flex-column gap-2 mb-3">
       <mat-form-field>
         <mat-icon matPrefix>person_outline</mat-icon>
@@ -63,11 +63,11 @@
         />
       </mat-form-field>
     </div>
-    <div class="footer">
-      <button mat-stroked-button (click)="onClickCancel()" type="button">
-        Cancel
-      </button>
-      <button mat-flat-button color="primary" type="submit">Save</button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="footer">
+    <button mat-stroked-button (click)="onClickCancel()" type="button">
+      Cancel
+    </button>
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>

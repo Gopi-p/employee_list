@@ -1,83 +1,96 @@
-<div class="max-w-25rem">
-  <mat-dialog-content>
-    <div class="grid">
-      <div class="col-6">
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="chosenDate = today"
-          [ngClass]="{
-            selected: isSameDate(today, chosenDate),
-            'w-full': true
-          }"
-        >
-          Today
-        </button>
-      </div>
-      <div class="col-6">
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="chosenDate = nextMonday"
-          [ngClass]="{
-            selected: isSameDate(nextMonday, chosenDate),
-            'w-full': true
-          }"
-        >
-          Next Monday
-        </button>
-      </div>
-      <div class="col-6">
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="chosenDate = nextTuesday"
-          [ngClass]="{
-            selected: isSameDate(nextTuesday, chosenDate),
-            'w-full': true
-          }"
-        >
-          Next Tuesday
-        </button>
-      </div>
-      <div class="col-6">
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="chosenDate = afterWeek"
-          [ngClass]="{
-            selected: isSameDate(afterWeek, chosenDate),
-            'w-full': true
-          }"
-        >
-          After 1 week
-        </button>
-      </div>
+<mat-dialog-content>
+  <div class="grid">
+    @if (isEndDate) {
+    <div class="col-6">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="chosenDate = null"
+        [ngClass]="{
+          selected: !chosenDate,
+          'w-full': true
+        }"
+      >
+        No Date
+      </button>
     </div>
-    <mat-calendar [(selected)]="chosenDate"></mat-calendar>
-    <div class="flex justify-content-between align-items-center">
-      @if(chosenDate){
-      <div class="flex align-items-center gap-2">
-        <mat-icon>event_outline</mat-icon>
-        <p class="txt-gray">{{ chosenDate | date : "d MMM yyyy" }}</p>
-      </div>
-      }@else {
-      <p class="txt-gray">No date</p>
-      }
-      <div class="flex gap-3">
-        <button mat-stroked-button mat-dialog-close type="button">
-          Cancel
-        </button>
-        <button
-          mat-flat-button
-          [mat-dialog-close]="chosenDate"
-          cdkFocusInitial
-          color="primary"
-          type="button"
-        >
-          Save
-        </button>
-      </div>
+    }
+    <div class="col-6">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="chosenDate = today"
+        [ngClass]="{
+          selected: isSameDate(today, chosenDate),
+          'w-full': true
+        }"
+      >
+        Today
+      </button>
     </div>
-  </mat-dialog-content>
-</div>
+    @if(!isEndDate){
+    <div class="col-6">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="chosenDate = nextMonday"
+        [ngClass]="{
+          selected: isSameDate(nextMonday, chosenDate),
+          'w-full': true
+        }"
+      >
+        Next Monday
+      </button>
+    </div>
+    <div class="col-6">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="chosenDate = nextTuesday"
+        [ngClass]="{
+          selected: isSameDate(nextTuesday, chosenDate),
+          'w-full': true
+        }"
+      >
+        Next Tuesday
+      </button>
+    </div>
+    <div class="col-6">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="chosenDate = afterWeek"
+        [ngClass]="{
+          selected: isSameDate(afterWeek, chosenDate),
+          'w-full': true
+        }"
+      >
+        After 1 week
+      </button>
+    </div>
+    }
+  </div>
+  <mat-calendar [(selected)]="chosenDate"></mat-calendar>
+  <div class="flex justify-content-between align-items-center gap-6">
+    @if(chosenDate){
+    <div class="flex align-items-center gap-2">
+      <mat-icon>event_outline</mat-icon>
+      <p class="txt-gray">{{ chosenDate | date : "d MMM yyyy" }}</p>
+    </div>
+    }@else {
+    <p class="txt-gray">No date</p>
+    }
+    <div class="flex gap-3">
+      <button mat-stroked-button mat-dialog-close type="button">Cancel</button>
+      <button
+        mat-flat-button
+        [mat-dialog-close]="chosenDate"
+        cdkFocusInitial
+        color="primary"
+        type="button"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>

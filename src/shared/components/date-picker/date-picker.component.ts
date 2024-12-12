@@ -32,7 +32,8 @@ const CORE = [DatePipe, NgClass];
   providers: [DatePipe, provideNativeDateAdapter()],
 })
 export class DatePickerComponent {
-  chosenDate: Date | undefined;
+  chosenDate: Date | undefined | null;
+  isEndDate: boolean = false;
 
   today: Date;
   nextMonday: Date;
@@ -40,6 +41,7 @@ export class DatePickerComponent {
   afterWeek: Date;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    this.isEndDate = data?.isEndDate;
     this.chosenDate = data?.initialDate
       ? new Date(data?.initialDate)
       : undefined;
