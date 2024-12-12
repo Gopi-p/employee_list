@@ -1,11 +1,11 @@
 <navbar title="Employee List"></navbar>
 <div class="page">
   @if(totalEmployee > 0){
-  <div class="bg-surface">
+  <div class="bng-surface">
     <p class="p-3 txt-primary">Current employees</p>
   </div>
 
-  <mat-list>
+  <mat-selection-list>
     @for (emp of employees.current; track $index) {
 
     <mat-list-item (click)="onClickEmployee(emp.id)" class="cursor-pointer">
@@ -20,11 +20,11 @@
       </span>
     </mat-list-item>
     }
-  </mat-list>
-  <div class="bg-surface">
+  </mat-selection-list>
+  <div class="bng-surface">
     <p class="p-3 txt-primary">Previous employees</p>
   </div>
-  <mat-list>
+  <mat-selection-list>
     @for (emp of employees.past; track $index) {
 
     <mat-list-item (click)="onClickEmployee(emp.id)" class="cursor-pointer">
@@ -40,7 +40,7 @@
       </span>
     </mat-list-item>
     }
-  </mat-list>
+  </mat-selection-list>
 
   }@else {
   <div

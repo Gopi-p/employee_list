@@ -15,3 +15,11 @@ export function displayToRawDate(
   const date = new Date(formattedDate);
   return !isNaN(date.getTime()) ? date.toISOString() : null;
 }
+
+export function genUniqueId() {
+  const min = 0;
+  const max = 9999;
+
+  let id = Math.floor(Math.random() * (max - min + 1)) + min;
+  return id.toString().padStart(4, '0');
+}

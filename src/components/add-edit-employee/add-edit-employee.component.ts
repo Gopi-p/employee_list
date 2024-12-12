@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormControl,
@@ -6,7 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { EmployeeService } from '../../shared/services/employee/employee.service';
+import { DatePickerComponent } from '../../shared/components/date-picker/date-picker.component';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,10 +21,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   displayToRawDate,
+  genUniqueId,
   rawToDisplayDate,
 } from '../../shared/functions/helper.function';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-import { DatePickerComponent } from '../../shared/components/date-picker/date-picker.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 const SHARED = [NavbarComponent];
 const CORE = [ReactiveFormsModule];
@@ -34,6 +36,7 @@ const MAT = [
   MatDividerModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatSnackBarModule,
 ];
 
 @Component({
@@ -49,11 +52,14 @@ export class AddEditEmployeeComponent implements OnInit {
 
   employeeForm: FormGroup;
 
+  @ViewChild('snackBarUI') snackbarUI?: TemplateRef<any>;
+
   constructor(
     private router: Router,
     private activateRoute: ActivatedRoute,
     private employeeService: EmployeeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.employeeForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -85,9 +91,13 @@ export class AddEditEmployeeComponent implements OnInit {
     });
   }
 
-  onDeleteEmployee() {
+  async onDeleteEmployee() {
     if (this.isEditMode && this.employeeId) {
-      this.employeeService.deleteEmployee(this.employeeId);
+      await this.employeeService.deleteEmployee(this.employeeId);
+      this.snackBar.open('Employee data has been deleted', 'Undo', {
+        duration: 3000,
+      });
+
       this.router.navigate(['/employee']);
     }
   }
@@ -107,12 +117,21 @@ export class AddEditEmployeeComponent implements OnInit {
         });
       } else {
         this.employeeService.addEmployee({
-          id: `${this.employeeService.employeeList().length + 1}`,
+          id: this.getNewEmpId(),
           ...employeeDetails,
         });
       }
       this.router.navigate(['/employee']);
     }
+  }
+
+  getNewEmpId() {
+    let newId;
+    do {
+      newId = genUniqueId();
+    } while (this.employeeService.getEmployee(newId) != null);
+
+    return newId;
   }
 
   openDatePicker(formField: string) {

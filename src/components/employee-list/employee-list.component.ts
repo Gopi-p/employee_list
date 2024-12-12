@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { EmployeeService } from '../../shared/services/employee/employee.service';
 import { EmployeeIF } from '../../shared/models/employee.model';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ const CORE = [DatePipe];
   styleUrl: './employee-list.component.scss',
   providers: [DatePipe],
 })
-export class EmployeeListComponent implements OnInit {
+export class EmployeeListComponent {
   employees: {
     current: EmployeeIF[];
     past: EmployeeIF[];
@@ -36,24 +36,10 @@ export class EmployeeListComponent implements OnInit {
     private router: Router
   ) {
     effect(() => {
-      const employeeList = this.employeeService.employeeList();
-
-      console.log('@@  employeeList: ', employeeList);
-
-      this.totalEmployee = employeeList.length;
-      this.employees.current = [];
-      this.employees.past = [];
-      employeeList.map((e) => {
-        if (e.toDate) {
-          this.employees.past.push(e);
-        } else {
-          this.employees.current.push(e);
-        }
-      });
+      this.totalEmployee = this.employeeService.totalEmployee;
+      this.employees = this.employeeService.employeeList();
     });
   }
-
-  ngOnInit() {}
 
   onClickAdd() {
     this.router.navigate(['/add-employee']);
@@ -63,5 +49,7 @@ export class EmployeeListComponent implements OnInit {
     this.router.navigate([`/edit-employee/${id}`]);
   }
 
-  deleteEmp() {}
+  deleteEmp(id: string) {
+    this.employeeService.deleteEmployee(id);
+  }
 }

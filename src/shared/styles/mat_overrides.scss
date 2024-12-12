@@ -8,3 +8,22 @@
 .mat-icon {
   color: var(--primary);
 }
+
+.mat-mdc-outlined-button:not(:disabled) {
+  background-color: var(--primary-100) !important;
+  border-color: var(--primary-100) !important;
+  color: var(--primary) !important;
+}
+
+.mat-mdc-dialog-container .mat-mdc-dialog-content {
+  padding: 24px 16px !important;
+}
+
+.mat-calendar-body-cell-content {
+  height: 70% !important;
+  width: 70% !important;
+}
+
+.mat-mdc-dialog-content {
+  max-height: 70vh !important;
+}
