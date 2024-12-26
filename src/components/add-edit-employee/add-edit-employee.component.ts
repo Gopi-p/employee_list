@@ -83,7 +83,6 @@ export class AddEditEmployeeComponent implements OnInit {
     const params = this.activateRoute.snapshot.params;
 
     /**
-     *
      * If the url contains the id then it is consider as edit mode and the respected employee
      * details will get fetched and patched to the form.
      */

@@ -12,7 +12,6 @@ export class EmployeeService {
   totalEmployee: number = 0;
 
   /**
-   *
    * Categorized employee object which contains the employee in current and past array.
    */
   employeeList: WritableSignal<{
@@ -26,7 +25,6 @@ export class EmployeeService {
   constructor(private idbService: IdbService) {}
 
   /**
-   *
    * A function to load all employees from indexDB from {@link idbService}
    *
    * It fetch and update the {@link employeeList}.
