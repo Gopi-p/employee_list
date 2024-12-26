@@ -3,7 +3,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { routes } from '../../app/app.routes';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,5 +16,6 @@ export const appConfig: ApplicationConfig = {
         appearance: 'outline',
       },
     },
+    provideStore(),
   ],
 };
